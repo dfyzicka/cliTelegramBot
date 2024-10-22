@@ -46,4 +46,54 @@ Telegram CLI Bot - это Telegram-бот, который позволяет в�
    ```bash
    python3 clyBot.py
 
+# Telegram CLI Bot
+
+The Telegram CLI Bot allows users to execute commands on a server through a Telegram interface. It supports aliases for simplifying commands and includes an authorization system for enhanced security.
+
+## Description
+
+This bot is designed for users who want to manage their server via Telegram, using simple aliases for complex commands. It enables command execution and returns results directly in the chat, making it a convenient tool for administration and monitoring.
+
+## Features
+
+- **Command Execution:** Executes server commands using aliases.
+- **Aliases:** Supports aliases for reduced command input.
+- **Authorization:** Protects commands with a password and allows for configurable password request intervals.
+- **Lockout:** Locks the user out after several incorrect password attempts.
+
+## Installation
+
+1. **Clone the repository:**:
+   ```bash
+   git clone https://github.com/dfyzicka/cliTelegramBot.git
+2. **Make the bot file executable:**:   
+   ```bash
+   cd cliTelegramBot/ &&  chmod +x clyBot.py
+3. **Install required libraries:**:
+   ```bash
+   pip install --upgrade --no-cache-dir -r requirements.txt
+4. **Rename the ex.env file to .env:** 
+   ```bash
+   mv ex.env .env
+5. **Add required variables:**
+   ```bash
+   nano .env
+
+**Environment Variables**
+- TELEGRAM_BOT_TOKEN=ваш_токен_бота
+- BOT_PASSWORD=ваш_пароль
+- PASSWORD_INTERVAL=0  # Password request interval (0: none, -1: every time, >0: after specified seconds)
+- MAX_ATTEMPTS=0       # Maximum password attempts (0: unlimited)
+- LOCKOUT_TIME=0       # Lockout time in seconds after exceeding attempts (0: no lockout)
+
+6. **Fill in the aliases list:**
+   ```bash
+   nano aliases.txt
+   
+7. **Run the bot:**
+   ```bash
+   python3 clyBot.py
+
+
+
 
