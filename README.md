@@ -23,5 +23,5 @@ Telegram CLI Bot - это Telegram-бот, который позволяет в�
    cd cliTelegramBot/ &&  chmod +x clyBot.py
 3. **Установите необходимые библиотеки**: 
   ```bash
-pip install --upgrade --no-cache-dir -r requirements.txt
+   pip install --upgrade --no-cache-dir -r requirements.txt
 
