@@ -1,0 +1,7 @@
+#example: alias = comand -key -key [options] | pipeline and everything without quotes 
+ls = ls -lah
+upgrade = sudo apt update && sudo apt upgrade -y
+pup = docker run -d -p 98:1080 socks5
+pdow = docker stop $(docker ps --filter ancestor=socks5 -q)
+st = speedtest --no-upload | grep -E 'Hosted|Download:'
+df = df -h
