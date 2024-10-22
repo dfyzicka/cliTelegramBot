@@ -18,7 +18,7 @@ Telegram CLI Bot - это Telegram-бот, который позволяет в�
 1. **Клонируйте репозиторий**:
    ```bash
    git clone https://github.com/dfyzicka/cliTelegramBot.git
-   
+2. **Сделайте файл бота исполняемым**:   
 ```bash
    cd cliTelegramBot/ &&  chmod +x clyBot.py
 
