@@ -46,6 +46,7 @@ user_authenticated = {}
 user_attempts = {}
 user_lockout_until = {}
 pending_commands = {}  # Хранит ожидающие команды
+password_request_time = {}  # Хранит время последнего запроса пароля
 
 # Настройка блокировки пользователя
 def is_user_locked(user_id):
@@ -69,7 +70,32 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     # Проверяем, есть ли в тексте алиас
     if text in aliases:
         pending_commands[user_id] = text  # Сохраняем алиас для выполнения
-        await update.message.reply_text('Введите пароль для выполнения команды.')
+
+        # Проверка, нужно ли запрашивать пароль
+        current_time = time.time()
+        if PASSWORD_INTERVAL == -1:
+            await update.message.reply_text('Введите пароль для выполнения команды.')
+        elif PASSWORD_INTERVAL > 0:
+            # Если пароль не запрашивался, то запрашиваем
+            if user_id not in password_request_time or (current_time - password_request_time[user_id] >= PASSWORD_INTERVAL):
+                password_request_time[user_id] = current_time  # Обновляем время запроса пароля
+                await update.message.reply_text('Введите пароль для выполнения команды.')
+            else:
+                # Выполняем команду сразу, если пароль не требуется
+                command = pending_commands.pop(user_id)  # Извлекаем алиас
+                try:
+                    output = subprocess.check_output(aliases[command], shell=True, text=True)
+                    await update.message.reply_text(f'Вывод:\n{output}')
+                except subprocess.CalledProcessError as e:
+                    await update.message.reply_text(f'Ошибка:\n{e.output}')
+        else:
+            # Выполняем команду сразу, если пароль не требуется
+            command = pending_commands.pop(user_id)  # Извлекаем алиас
+            try:
+                output = subprocess.check_output(aliases[command], shell=True, text=True)
+                await update.message.reply_text(f'Вывод:\n{output}')
+            except subprocess.CalledProcessError as e:
+                await update.message.reply_text(f'Ошибка:\n{e.output}')
     elif user_id in pending_commands:
         # Если пользователь вводит пароль
         if text == PASSWORD:
@@ -110,3 +136,4 @@ def main() -> None:
     application.run_polling()
 
 if __name__ == '__main__':
+    main()
